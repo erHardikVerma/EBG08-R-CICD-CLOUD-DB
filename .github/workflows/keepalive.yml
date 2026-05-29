@@ -1,0 +1,28 @@
+name: Supabase Keep-Alive
+
+on:
+  schedule:
+    - cron: '0 0 */5 * *'  # Runs every 5 days at midnight UTC
+  workflow_dispatch:       # Allows manual trigger in the GitHub Actions UI
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install psycopg2-binary
+
+      - name: Run keep-alive script
+        run: python keepalive.py

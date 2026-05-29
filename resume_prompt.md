@@ -33,7 +33,7 @@
 - **Supabase Table Name:** `EBG` (capital letters — must use double quotes in SQL: `"EBG"`)
 - **Supabase Connection:** Uses **Session Pooler** URL (not direct) to bypass IPv4/IPv6 issues
 - **Docker Image Name:** `ebg-backend`
-- **GitHub Repo:** `https://github.com/erHardikVerma/08-R-CICD_Cloud_DB.git`
+- **GitHub Repo:** `https://github.com/erHardikVerma/EBG08-R-CICD-CLOUD-DB.git`
 - **Branch:** `main`
 - **Flask runs on:** `host="0.0.0.0"`, `port=5000`
 - **Cursor uses `RealDictCursor`** from `psycopg2.extras` for labeled JSON output

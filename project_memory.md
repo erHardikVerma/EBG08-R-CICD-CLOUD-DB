@@ -51,13 +51,17 @@
    - Pushed to GitHub so Jenkins can read it directly from the repo.
    - *Bug Fixed:* `timeout /t 5` doesn't work in Jenkins (no stdin). Replaced with `ping -n 6 127.0.0.1 > nul`.
    - ✅ **All 3 stages passed GREEN on Jenkins!** Pipeline is fully operational.
+10. **Supabase Keep-Alive (Inactivity Pause Prevention):**
+    - Created the `keepalive` table in PostgreSQL automatically via the backend `init_db()` function in `app.py`.
+    - Wrote a robust `keepalive.py` script that directly updates the database counter via SQL.
+    - Set up a GitHub Actions workflow `.github/workflows/keepalive.yml` that triggers every 5 days (and manually) to run `keepalive.py`, ensuring the free-tier Supabase database never goes to sleep.
 
 ## 🗺️ Future Roadmap (The Game Plan)
 1. **Frontend:** Build a web UI that consumes our Flask JSON API and deploy on Vercel/Netlify.
 
 ## 🌍 Live URLs
 - **Backend API:** `https://ebg-backend.onrender.com`
-- **GitHub Repo:** `https://github.com/erHardikVerma/08-R-CICD_Cloud_DB`
+- **GitHub Repo:** https://github.com/erHardikVerma/EBG08-R-CICD-CLOUD-DB
 
 ## 🏗️ Deployment Architecture
 ```

@@ -8,9 +8,10 @@ import os
 app = Flask(__name__)
 CORS(app)  # Allow frontend on Vercel to talk to backend on Render
 
-# ─── Create notes table if it doesn't exist ───
+# ─── Create notes and keepalive tables if they don't exist ───
 def init_db():
     cur = table.cursor()
+    # 1. Notes table
     cur.execute('''
         CREATE TABLE IF NOT EXISTS notes (
             id SERIAL PRIMARY KEY,
@@ -18,6 +19,19 @@ def init_db():
             created_by VARCHAR(255),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
+    ''')
+    # 2. Keep-alive table (to prevent Supabase 7-day inactivity pause)
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS keepalive (
+            id INTEGER PRIMARY KEY DEFAULT 1,
+            counter BIGINT DEFAULT 0,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    cur.execute('''
+        INSERT INTO keepalive (id, counter) 
+        VALUES (1, 0) 
+        ON CONFLICT (id) DO NOTHING
     ''')
     table.commit()
     cur.close()
