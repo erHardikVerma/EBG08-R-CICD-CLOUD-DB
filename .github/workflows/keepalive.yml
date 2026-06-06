@@ -8,10 +8,14 @@ on:
 jobs:
   ping:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write           # Needed to push the heartbeat commit
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -26,3 +30,16 @@ jobs:
 
       - name: Run keep-alive script
         run: python keepalive.py
+
+      - name: Heartbeat commit (keeps GitHub Actions alive)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main || true
+          echo "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > .github/.keepalive
+          git add .github/.keepalive
+          git diff --cached --quiet && echo "No changes to commit" || {
+            git commit -m "chore: keepalive heartbeat [skip ci]"
+            git push origin main
+            echo "✅ Heartbeat commit pushed"
+          }
