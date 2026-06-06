@@ -27,7 +27,8 @@ if ($LASTEXITCODE -ne 0) {
         exit 1
     }
     Write-Host " [OK] Changes committed." -ForegroundColor Green
-} else {
+}
+else {
     Write-Host " [SKIP] No new changes to commit." -ForegroundColor DarkGray
 }
 
@@ -54,3 +55,5 @@ Write-Host "==================================================" -ForegroundColor
 Write-Host " [SUCCESS] CODE PUSHED TO GITHUB!" -ForegroundColor Green
 Write-Host " Repo: https://github.com/erHardikVerma/EBG08-R-CICD-CLOUD-DB" -ForegroundColor Cyan
 Write-Host "==================================================" -ForegroundColor Green
+
+#try1
