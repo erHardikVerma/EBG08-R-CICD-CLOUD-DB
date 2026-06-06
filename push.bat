@@ -1,17 +1,33 @@
 @echo off
-echo =========================================
-echo 🚀 Pushing Code to GitHub...
-echo =========================================
+chcp 65001 >nul
+echo ==================================================
+echo   EBG08 - GitHub Auto Deploy
+echo ==================================================
+echo.
 
-git init
-git remote remove origin 2>nul
-git remote add origin https://github.com/erHardikVerma/EBG08-R-CICD-CLOUD-DB.git
+:: Stage all changes
 git add .
-git commit -m "Auto-commit: Saved project memory and backend logic"
-git branch -M main
-git pull --rebase origin main
-git push -u origin main
 
-echo =========================================
-echo ✅ Push Complete!
-echo =========================================
+:: Commit (skip if nothing changed)
+git diff --cached --quiet
+if %errorlevel% neq 0 (
+    git commit -m "update"
+    echo [OK] Changes committed.
+) else (
+    echo [SKIP] No new changes to commit.
+)
+
+:: Pull latest (handles heartbeat commits from GitHub Actions)
+echo.
+echo Pulling latest changes...
+git pull --rebase origin main
+
+:: Push
+echo Pushing to GitHub...
+git push origin main
+
+echo.
+echo ==================================================
+echo  [SUCCESS] CODE PUSHED TO GITHUB!
+echo ==================================================
+echo.
